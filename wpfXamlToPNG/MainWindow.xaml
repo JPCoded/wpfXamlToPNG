@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpfXamlToPNG"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="184" Width="525">
     <Grid Background="#FFE0E0E0">
-        <Canvas x:Name="cnvCanvas" HorizontalAlignment="Left" Height="180" Margin="0,139,0,0" VerticalAlignment="Top" Width="517" Background="White"/>
-        <TextBox x:Name="txtXaml" HorizontalAlignment="Left" Height="23" Margin="56,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="422" BorderBrush="Black"/>
-        <Label x:Name="lblXaml" Content="XAML" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.246,0.078"/>
-        <Button x:Name="btnDraw" Content="Button" HorizontalAlignment="Left" Margin="432,114,0,0" VerticalAlignment="Top" Width="75" Click="btnDraw_Click"/>
+        <TextBox x:Name="txtXaml" HorizontalAlignment="Left" Height="23" Margin="56,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" BorderBrush="Black"/>
+        <Label x:Name="lblXaml" Content="XAML" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.246,0.078"/>
+        <Button x:Name="btnDraw" Content="Save" HorizontalAlignment="Left" Margin="432,114,0,0" VerticalAlignment="Top" Width="75" Click="btnDraw_Click"/>
+        <TextBox x:Name="txtWidth" HorizontalAlignment="Left" Height="23" Margin="56,38,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120" BorderBrush="Black"/>
+        <TextBox x:Name="txtHeight" HorizontalAlignment="Left" Height="23" Margin="56,66,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120" BorderBrush="Black"/>
+        <Label x:Name="lblWidth" Content="Width:" HorizontalAlignment="Left" Margin="3,38,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblHeight" Content="Height:" HorizontalAlignment="Left" Margin="3,62,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
