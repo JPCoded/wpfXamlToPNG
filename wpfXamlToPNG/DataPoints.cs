@@ -8,20 +8,26 @@ namespace wpfXamlToPNG
 {
     public class DataPoints
     {
-        private string command;
-        private double pointone;
-        private double pointtwo;
+        private readonly string _command = null;
+        private readonly double _pointone;
+        private readonly double _pointtwo;
 
-        public DataPoints( string Points)
+        public DataPoints( string points)
         {
+           
+            if (points.StartsWith("M") || points.StartsWith("m"))
+            {
+                _command = "M";
+                points = points.Replace("M", "");
+            }
+           var newPoints = points.Split(',');
+            _pointone =Convert.ToDouble(newPoints[0]);
+            _pointtwo = Convert.ToDouble(newPoints[1]);
 
         }
 
-        (double, double) GetPoints() => (pointone, pointtwo);
+       public (double, double) GetPoints() => (_pointone, _pointtwo);
+        public string GetCommand() => _command;
 
-      public  void SetPoints(string PointsToSet)
-        {
-            
-        }
     }
-}
+}                  
