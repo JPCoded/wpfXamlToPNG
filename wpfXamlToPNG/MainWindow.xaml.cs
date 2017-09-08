@@ -18,13 +18,21 @@ namespace wpfXamlToPNG
         }
 
         private void btnDraw_Click(object sender, RoutedEventArgs e)
-
         {
+            var startPoints = new DataPoints();
             var datapoints = txtXaml.Text.Split(' ');
             var pen = new Pen(Color.FromArgb(255, 0, 0, 0));
             var bmp = new Bitmap(Convert.ToInt32(txtWidth.Text), Convert.ToInt32(txtHeight.Text));
             var gr = Graphics.FromImage(bmp);
             var dataPoints = datapoints.Select(point => new DataPoints(point)).ToList();
+            foreach (var point in dataPoints)
+            {
+                if (point.GetCommand() == "M")
+                {
+                    startPoints = point;
+                }
+            }
+
             gr.DrawLine(pen, 0, 0, 50, 50);
             bmp.Save(@"D:\test.png");
         }
