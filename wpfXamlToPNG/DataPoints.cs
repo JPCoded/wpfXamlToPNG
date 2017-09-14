@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wpfXamlToPNG
 {
-    public class DataPoints
+    public class DataPoints : IDataPoints
     {
         private string _command = null;
         private double _pointone;
@@ -18,14 +14,18 @@ namespace wpfXamlToPNG
 
         public DataPoints( string points) => ParsePoints(points);
 
-        
 
-        private void ParsePoints(string points)
+        public void ParsePoints(string points)
         {
-            if (points.StartsWith("M") || points.StartsWith("m"))
+            if (points.StartsWith("M"))
             {
                 _command = "M";
                 points = points.Replace("M", "");
+            }
+            else if (points.StartsWith("L"))
+            {
+                _command = "L";
+                points = points.Replace("L", "");
             }
             var newPoints = points.Split(',');
             _pointone = Convert.ToDouble(newPoints[0]);
@@ -33,7 +33,7 @@ namespace wpfXamlToPNG
         }
 
         public void AddPoints(string points) => ParsePoints(points);
-       public (double, double) GetPoints() => (_pointone, _pointtwo);
+        public (double, double) GetPoints() => (_pointone, _pointtwo);
         public string GetCommand() => _command;
 
     }
