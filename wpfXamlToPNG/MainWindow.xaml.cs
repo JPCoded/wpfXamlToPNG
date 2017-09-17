@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using Color = System.Drawing.Color;
+using Pen = System.Drawing.Pen;
 
 namespace wpfXamlToPNG
 {
@@ -11,7 +16,7 @@ namespace wpfXamlToPNG
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {                        
+    {
         public MainWindow()
         {
             InitializeComponent();
@@ -19,8 +24,8 @@ namespace wpfXamlToPNG
 
         private void btnDraw_Click(object sender, RoutedEventArgs e)
         {
-            var startPoints = new DataPoints();
-            var currentPoints = new List<(double,double)>();
+            (double, double) startPoints = (0, 0);
+            var currentPoints = new List<(double, double)>();
             var currentCommand = "";
             var datapoints = txtXaml.Text.Split(' ');
             var pen = new Pen(Color.FromArgb(255, 0, 0, 0));
@@ -28,6 +33,13 @@ namespace wpfXamlToPNG
             var gr = Graphics.FromImage(bmp);
             var dataPoints = datapoints.Select(point => new DataPoints(point)).ToList();
             //Figure out best way to go through list and get each item
+            /**
+  * L EndPoint, EndPoint  -- Line
+  * H EndPoint  -- Horizontal Line
+  * V EndPoint  -- Vertical Line
+  * C ControlPoint, ControlPoint, EndPoint -- Cubic Bezier Curve
+  * 
+  */
             /**
              * Check current Command
              * If M, set start point
@@ -42,28 +54,37 @@ namespace wpfXamlToPNG
             {
                 if (point.GetCommand() == "M")
                 {
-                    startPoints = point;  
+                    startPoints = point.GetPoints();
                 }
                 else if (point.GetCommand() != null)
                 {
                     currentCommand = point.GetCommand();
                     currentPoints = new List<(double, double)>();
                 }
+
                 currentPoints.Add(point.GetPoints());
 
                 if (currentCommand == "L")
                 {
-                    
-                         gr.DrawLine(pen, (float) startPoints.GetPoints().Item1, (float) startPoints.GetPoints().Item2, (float) currentPoints[0].Item1, (float)currentPoints[0].Item2);
+                    foreach (var cPoint in currentPoints)
+                    {
+                        gr.DrawLine(pen, (float)startPoints.Item1, (float)startPoints.Item2, (float)cPoint.Item1, (float)cPoint.Item2);
+                        startPoints = cPoint;
+
+                    }
                 }
-                
+                if (currentCommand == "C")
+                {
+
+                }
+
             }
 
-       
+
+            gr.Dispose();
             bmp.Save(@"D:\test.png");
         }
 
-        private void DrawCurrentPoints()
-        { }
+       
     }
-}     
+}
