@@ -2,7 +2,7 @@
 
 namespace wpfXamlToPNG
 {
-    public class DataPoints : IDataPoints
+    public sealed class DataPoints : IDataPoints
     {
         private string _command = null;
         private double _pointone;
@@ -27,6 +27,12 @@ namespace wpfXamlToPNG
                 _command = "L";
                 points = points.Replace("L", "");
             }
+            else if (points.StartsWith("C"))
+            {
+                _command = "C";
+                points = points.Replace("C","");
+            }
+
             var newPoints = points.Split(',');
             _pointone = Convert.ToDouble(newPoints[0]);
             _pointtwo = Convert.ToDouble(newPoints[1]);

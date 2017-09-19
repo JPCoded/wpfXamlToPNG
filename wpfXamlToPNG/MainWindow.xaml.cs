@@ -25,6 +25,7 @@ namespace wpfXamlToPNG
         private void btnDraw_Click(object sender, RoutedEventArgs e)
         {
             (double, double) startPoints = (0, 0);
+            (double, double) currentStartPoints = (0, 0);
             var currentPoints = new List<(double, double)>();
             var currentCommand = "";
             var datapoints = txtXaml.Text.Split(' ');
@@ -55,28 +56,37 @@ namespace wpfXamlToPNG
                 if (point.GetCommand() == "M")
                 {
                     startPoints = point.GetPoints();
+                    currentStartPoints = point.GetPoints();
                 }
-                else if (point.GetCommand() != null)
+                else if (point.GetCommand() != null && currentCommand != point.GetCommand())
                 {
+                    if (currentCommand == "L")
+                {
+                    foreach (var cPoint in currentPoints)
+                    {
+                        gr.DrawLine(pen, (float)currentStartPoints.Item1, (float)currentStartPoints.Item2, (float)cPoint.Item1, (float)cPoint.Item2);
+                        currentStartPoints = cPoint;
+
+                    }
+                }
+                if (currentCommand == "C")
+                {
+                    while (currentPoints.Count > 0)
+                    {
+                        gr.DrawBezier(pen, (float)currentStartPoints.Item1, (float)currentStartPoints.Item2,
+                            (float)currentPoints[0].Item1, (float)currentPoints[0].Item2,
+                            (float)currentPoints[1].Item1, (float)currentPoints[1].Item2,
+                            (float)currentPoints[2].Item1, (float)currentPoints[2].Item2);
+                        currentPoints.RemoveRange(0, 3);
+                    }
+                }
                     currentCommand = point.GetCommand();
                     currentPoints = new List<(double, double)>();
                 }
 
                 currentPoints.Add(point.GetPoints());
 
-                if (currentCommand == "L")
-                {
-                    foreach (var cPoint in currentPoints)
-                    {
-                        gr.DrawLine(pen, (float)startPoints.Item1, (float)startPoints.Item2, (float)cPoint.Item1, (float)cPoint.Item2);
-                        startPoints = cPoint;
-
-                    }
-                }
-                if (currentCommand == "C")
-                {
-
-                }
+               
 
             }
 

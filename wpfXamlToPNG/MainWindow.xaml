@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="184" Width="525">
     <Grid Background="#FFE0E0E0">
-        <TextBox x:Name="txtXaml" HorizontalAlignment="Left" Height="75" Margin="56,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="422" BorderBrush="Black"/>
+        <TextBox x:Name="txtXaml" HorizontalAlignment="Left" Height="75" Margin="56,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="451" BorderBrush="Black"/>
         <Label x:Name="lblXaml" Content="XAML" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.246,0.078"/>
         <Button x:Name="btnDraw" Content="Save" HorizontalAlignment="Left" Margin="432,114,0,0" VerticalAlignment="Top" Width="75" Click="btnDraw_Click"/>
         <TextBox x:Name="txtWidth" HorizontalAlignment="Left" Height="23" Margin="56,90,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120" BorderBrush="Black"/>
