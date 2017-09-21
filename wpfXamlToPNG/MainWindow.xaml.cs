@@ -60,23 +60,8 @@ namespace wpfXamlToPNG
                 }
                 else if (point.GetCommand() != null && currentCommand != point.GetCommand())
                 {
-                    if (currentCommand == "L")
-                    {
-                        foreach (var cPoint in currentPoints)
-                        {
-                          gr.DrawXaml(pen,currentPoints, currentStartPoints, currentCommand);
-                          currentStartPoints = cPoint;
 
-                        }
-                    }
-                    if (currentCommand == "C")
-                    {
-                        while (currentPoints.Count > 0)
-                        {
-                          gr.DrawXaml(pen, currentPoints, currentStartPoints, currentCommand);
-                            currentPoints.RemoveRange(0, 3);
-                        }
-                    }
+                          gr.DrawXaml(pen, currentPoints, ref currentStartPoints, currentCommand);                       
                     currentCommand = point.GetCommand();
                     currentPoints = new List<(double, double)>();
                 }
