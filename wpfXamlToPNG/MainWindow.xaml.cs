@@ -61,40 +61,32 @@ namespace wpfXamlToPNG
                 else if (point.GetCommand() != null && currentCommand != point.GetCommand())
                 {
                     if (currentCommand == "L")
-                {
-                    foreach (var cPoint in currentPoints)
                     {
-                        gr.DrawLine(pen, (float)currentStartPoints.Item1, (float)currentStartPoints.Item2, (float)cPoint.Item1, (float)cPoint.Item2);
-                        currentStartPoints = cPoint;
+                        foreach (var cPoint in currentPoints)
+                        {
+                          gr.DrawXaml(pen,currentPoints, currentStartPoints, currentCommand);
+                          currentStartPoints = cPoint;
 
+                        }
                     }
-                }
-                if (currentCommand == "C")
-                {
-                    while (currentPoints.Count > 0)
+                    if (currentCommand == "C")
                     {
-                        gr.DrawBezier(pen, (float)currentStartPoints.Item1, (float)currentStartPoints.Item2,
-                            (float)currentPoints[0].Item1, (float)currentPoints[0].Item2,
-                            (float)currentPoints[1].Item1, (float)currentPoints[1].Item2,
-                            (float)currentPoints[2].Item1, (float)currentPoints[2].Item2);
-                        currentPoints.RemoveRange(0, 3);
+                        while (currentPoints.Count > 0)
+                        {
+                          gr.DrawXaml(pen, currentPoints, currentStartPoints, currentCommand);
+                            currentPoints.RemoveRange(0, 3);
+                        }
                     }
-                }
                     currentCommand = point.GetCommand();
                     currentPoints = new List<(double, double)>();
                 }
 
                 currentPoints.Add(point.GetPoints());
-
-               
-
             }
 
 
             gr.Dispose();
             bmp.Save(@"D:\test.png");
         }
-
-       
     }
 }
